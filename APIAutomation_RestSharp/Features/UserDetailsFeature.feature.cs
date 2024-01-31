@@ -155,7 +155,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 20
-    testRunner.Given(string.Format("an existing user with ID {0}", userID), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given(string.Format("an user with ID {0}", userID), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 21
     testRunner.When("I get user details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -204,7 +204,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 34
- testRunner.Given(string.Format("an existing user with ID {0}", userID), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given(string.Format("an user with ID {0}", userID), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 35
   testRunner.And(string.Format("I have new user information with name as {0} and Job as {1}", userName, job), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -244,13 +244,100 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 46
-testRunner.Given("an existing user with ID 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+testRunner.Given("an user with ID 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 47
 testRunner.When("I Delete user details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 48
 testRunner.Then("I should receive the status code as 204", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Attempt to Add a New User with Incomplete Information")]
+        [NUnit.Framework.CategoryAttribute("Post")]
+        [NUnit.Framework.CategoryAttribute("Negative")]
+        [NUnit.Framework.TestCaseAttribute("\"\"", "Analyst", null)]
+        [NUnit.Framework.TestCaseAttribute("John", "", null)]
+        [NUnit.Framework.TestCaseAttribute("", "", null)]
+        public void AttemptToAddANewUserWithIncompleteInformation(string userName, string job, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Post",
+                    "Negative"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("UserName", userName);
+            argumentsOfScenario.Add("Job", job);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Attempt to Add a New User with Incomplete Information", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 51
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 52
+    testRunner.Given(string.Format("I have incomplete user information with name as {0} and Job as {1}", userName, job), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 53
+    testRunner.When("I attempt to create a new user with incomplete information", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 54
+    testRunner.Then("I should receive a validation error", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Attempt to Delete User with Invalid ID")]
+        [NUnit.Framework.CategoryAttribute("Delete")]
+        [NUnit.Framework.CategoryAttribute("Negative")]
+        [NUnit.Framework.TestCaseAttribute("invalid123", null)]
+        [NUnit.Framework.TestCaseAttribute("999", null)]
+        [NUnit.Framework.TestCaseAttribute("", null)]
+        public void AttemptToDeleteUserWithInvalidID(string userID, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Delete",
+                    "Negative"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("UserID", userID);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Attempt to Delete User with Invalid ID", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 63
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 64
+    testRunner.Given(string.Format("a user with ID {0} does not exist", userID), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 65
+    testRunner.When("I attempt to delete the user with Invalid ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 66
+    testRunner.Then("the system should respond with a user not found error", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

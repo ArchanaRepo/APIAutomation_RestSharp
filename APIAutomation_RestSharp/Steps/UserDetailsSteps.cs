@@ -6,6 +6,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.PeerToPeer;
 using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
@@ -74,8 +75,8 @@ namespace APIAutomation_RestSharp.Steps
             }
         }
 
-        [Given(@"an existing user with ID (.*)")]
-        public void GivenAnExistingUserWithID(int userID)
+        [Given(@"an user with ID (.*)")]
+        public void GivenAnUserWithID(int userID)
         {
             _scenarioContext["UserID"] = userID;
         }
@@ -152,6 +153,79 @@ namespace APIAutomation_RestSharp.Steps
 
             }
         }
+        [Given(@"I have incomplete user information with name as (.*) and Job as (.*)")]
+        public void GivenIHaveIncompleteUserInformation(string userName, string job)
+        {
+            _scenarioContext["UserName"] = userName;
+            _scenarioContext["Job"] = job;
+        }
+        [When(@"I attempt to create a new user with incomplete information")]
+        public void WhenIAttemptToCreateANewUserWithIncompleteInformation()
+        {
+            try
+            {
+
+                var user = new Helpers<CreateUserResponseDTO>();
+                string endpoint = "api/users";
+                var client = user.SetURL(endpoint);
+                var name = _scenarioContext["UserName"];
+                var job = _scenarioContext["Job"];
+
+                string payload = $@"{{
+                     ""name"": ""{name}"",
+                     ""job"": ""{job}""
+                   }}";
+                request = user.CreatePostRequest(payload);
+                response = user.ExecuteRequest(client, request);
+
+            }
+            catch (Exception ex) 
+            {
+                _scenarioContext["Error"] = ex.Message;
+                
+            }
+        }
+        [Then(@"I should receive a validation error")]
+        public void ThenIShouldReceiveAValidationError()
+        {
+            var error = _scenarioContext["Error"];
+
+            Assert.That(error.ToString(),Is.EqualTo("User Creating was unsuccessful"));
+
+        }
+
+        [Given(@"a user with ID (.*) does not exist")]
+        public void GivenAUserWithIDInvalidDoesNotExist(int userID)
+        {
+            _scenarioContext["UserID"]=userID;
+        }
+        [When(@"I attempt to delete the user with Invalid ID")]
+        public void WhenIAttemptToDeleteTheUserWithInvalidID()
+        {
+            try
+            {
+                var user = new Helpers<GetSingleUserResponseDTO>();
+                string endpoint = "api/users/" + _scenarioContext["UserID"];
+                var client = user.SetURL(endpoint);
+                var request = user.CreateDeleteRequest();
+                response = user.ExecuteRequest(client, request);
+            }
+            catch (Exception ex)
+            {
+                _scenarioContext["Error"] = ex.Message;
+
+            }
+        }
+
+        [Then(@"the system should respond with a user not found error")]
+        public void ThenTheSystemShouldRespondWithAUserNotFoundError()
+        {
+            var error = _scenarioContext["Error"].ToString();
+
+           Assert.That(error.Contains("not found"), "Unexpected error message");
+        }
+
+
 
 
 
