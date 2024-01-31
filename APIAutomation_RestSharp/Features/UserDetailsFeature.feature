@@ -59,8 +59,8 @@ Examples:
   | John     |         |
   |          |         |
 
-  @Delete @Negative
-  Scenario Outline: Attempt to Delete User with Invalid ID
+ @Delete @Negative
+ Scenario Outline: Attempt to Delete User with Invalid ID
     Given a user with ID <UserID> does not exist
     When I attempt to delete the user with Invalid ID
     Then the system should respond with a user not found error
